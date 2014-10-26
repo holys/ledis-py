@@ -368,6 +368,11 @@ class Ledis(object):
         "Set the value of key ``name`` to ``value`` if key doesn't exist"
         return self.execute_command('SETNX', name, value)
 
+    def setex(self, name, time, value):
+        if isinstance(time, datetime.timedelta):
+            time = time.seconds + time.days * 24 * 3600
+        return self.execute_command("setex", name, time, value)
+
     def ttl(self, name):
         "Returns the number of seconds until the key ``name`` will expire"
         return self.execute_command('TTL', name)

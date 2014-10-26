@@ -110,6 +110,12 @@ class TestCmdKv(unittest.TestCase):
         l.set('a', 'hello')
         assert l.ttl('a') == -1
 
+    def test_setex(self):
+        l.delete('a')
+        assert l.setex('a', 10, '1')
+        assert l.ttl('a') == 10
+        assert l['a'] == b('1')
+
     def test_persist(self):
         assert l.set('a', 'hello')
         assert l.expire('a', 100)
